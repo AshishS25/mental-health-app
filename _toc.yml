@@ -1,0 +1,18 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Development
+    chapters:
+    - file: content/development/01_data_preparation
+      title: "Data Preparation"
+    - file: content/development/02_model_development
+      title: "Model Development"
+    - file: content/development/03_feature_engineering
+      title: "Feature Engineering"
+      
+  - caption: Deployment
+    chapters:
+    - file: content/deployment/04_deploy
+      title: "API Deployment"
+    - file: content/deployment/05_streamlit_app
+      title: "Streamlit Application"

@@ -1,0 +1,117 @@
+Traceback (most recent call last):
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\nbclient\client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\jupyter_core\utils\__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASHISH\anaconda3\Lib\asyncio\base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\nbclient\client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\nbclient\client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\ASHISH\anaconda3\Lib\site-packages\nbclient\client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#Save the model in joblib
+import joblib
+import pandas as pd
+import numpy as np
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+
+def create_final_pipeline():
+    """Create the final pipeline with MinMax scaler"""
+    numeric_features = ['age', 'is_tech_company']
+    categorical_features = ['gender', 'country', 'company_size', 'work_remotely', 
+                          'has_mental_health_benefits', 'current_disorder']
+    
+    # Create preprocessing pipelines
+    numeric_transformer = Pipeline(steps=[
+        ('scaler', MinMaxScaler())
+    ])
+    
+    categorical_transformer = Pipeline(steps=[
+        ('onehot', OneHotEncoder(handle_unknown='ignore', sparse=False))
+    ])
+    
+    # Combine preprocessing steps
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numeric_transformer, numeric_features),
+            ('cat', categorical_transformer, categorical_features)
+        ])
+    
+    # Create full pipeline
+    return Pipeline([
+        ('preprocessor', preprocessor),
+        ('classifier', LogisticRegression(random_state=42))
+    ])
+
+def train_and_save_model(X_train, y_train, model_path='final_mental_health_model.joblib'):
+    """Train and save the final model"""
+    # Create pipeline
+    pipeline = create_final_pipeline()
+    
+    # Fit the pipeline
+    pipeline.fit(X_train, y_train)
+    
+    # Save the model
+    joblib.dump(pipeline, model_path)
+    print(f"Model saved successfully to: {model_path}")
+    
+    return pipeline
+
+def main():
+    # Load your preprocessed data
+    df = load_and_preprocess_data()
+    
+    # Prepare features and target
+    X = df.drop('sought_treatment', axis=1)
+    y = df['sought_treatment']
+    
+    # Split data
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    # Train and save model
+    final_model = train_and_save_model(X_train, y_train)
+    
+    # Verify the saved model
+    loaded_model = joblib.load('final_mental_health_model.joblib')
+    test_pred = loaded_model.predict(X_test)
+    test_score = f1_score(y_test, test_pred)
+    
+    print("\nModel Verification:")
+    print("-" * 50)
+    print(f"Test F1 Score with loaded model: {test_score:.4f}")
+
+if __name__ == "__main__":
+    main()
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mNameError[0m                                 Traceback (most recent call last)
+Cell [1;32mIn[1], line 78[0m
+[0;32m     75[0m     [38;5;28mprint[39m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mTest F1 Score with loaded model: [39m[38;5;132;01m{[39;00mtest_score[38;5;132;01m:[39;00m[38;5;124m.4f[39m[38;5;132;01m}[39;00m[38;5;124m"[39m)
+[0;32m     77[0m [38;5;28;01mif[39;00m [38;5;18m__name__[39m [38;5;241m==[39m [38;5;124m"[39m[38;5;124m__main__[39m[38;5;124m"[39m:
+[1;32m---> 78[0m     main()
+
+Cell [1;32mIn[1], line 54[0m, in [0;36mmain[1;34m()[0m
+[0;32m     52[0m [38;5;28;01mdef[39;00m [38;5;21mmain[39m():
+[0;32m     53[0m     [38;5;66;03m# Load your preprocessed data[39;00m
+[1;32m---> 54[0m     df [38;5;241m=[39m load_and_preprocess_data()
+[0;32m     56[0m     [38;5;66;03m# Prepare features and target[39;00m
+[0;32m     57[0m     X [38;5;241m=[39m df[38;5;241m.[39mdrop([38;5;124m'[39m[38;5;124msought_treatment[39m[38;5;124m'[39m, axis[38;5;241m=[39m[38;5;241m1[39m)
+
+[1;31mNameError[0m: name 'load_and_preprocess_data' is not defined
+
