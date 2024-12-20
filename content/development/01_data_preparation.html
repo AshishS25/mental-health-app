@@ -1,0 +1,1593 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Preparation &#8212; Mental Health Treatment Prediction</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/development/01_data_preparation';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Model Development" href="02_model_development.html" />
+    <link rel="prev" title="Mental Health Treatment Prediction" href="../../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Mental Health Treatment Prediction - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Mental Health Treatment Prediction - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Mental Health Treatment Prediction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_model_development.html">Model Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_feature_engineering.html">Feature Engineering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Deployment</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../deployment/04_deploy.html">Model Experiments</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../deployment/05_streamlit_app.html">Streamlit Application</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/AshishS25/mental-health-app" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/AshishS25/mental-health-app/edit/main/content/development/01_data_preparation.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/AshishS25/mental-health-app/issues/new?title=Issue%20on%20page%20%2Fcontent/development/01_data_preparation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/development/01_data_preparation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Preparation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation">
+<h1>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h1>
+<p>This section covers the initial data processing steps including data loading, cleaning, and preliminary analysis.
+Navigate: <a class="reference internal" href="02_model_development.html"><span class="std std-doc">Next (Model Development)</span></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Mental health classification</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mental_health.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   Are you self-employed?  \
+0                       0   
+1                       0   
+2                       0   
+3                       1   
+4                       0   
+
+  How many employees does your company or organization have?  \
+0                                             26-100           
+1                                               6-25           
+2                                               6-25           
+3                                                NaN           
+4                                               6-25           
+
+   Is your employer primarily a tech company/organization?  \
+0                                                1.0         
+1                                                1.0         
+2                                                1.0         
+3                                                NaN         
+4                                                0.0         
+
+   Is your primary role within your company related to tech/IT?  \
+0                                                NaN              
+1                                                NaN              
+2                                                NaN              
+3                                                NaN              
+4                                                1.0              
+
+  Does your employer provide mental health benefits as part of healthcare coverage?  \
+0                    Not eligible for coverage / N/A                                  
+1                                                 No                                  
+2                                                 No                                  
+3                                                NaN                                  
+4                                                Yes                                  
+
+  Do you know the options for mental health care available under your employer-provided coverage?  \
+0                                                NaN                                                
+1                                                Yes                                                
+2                                                NaN                                                
+3                                                NaN                                                
+4                                                Yes                                                
+
+  Has your employer ever formally discussed mental health (for example, as part of a wellness campaign or other official communication)?  \
+0                                                 No                                                                                       
+1                                                Yes                                                                                       
+2                                                 No                                                                                       
+3                                                NaN                                                                                       
+4                                                 No                                                                                       
+
+  Does your employer offer resources to learn more about mental health concerns and options for seeking help?  \
+0                                                 No                                                            
+1                                                Yes                                                            
+2                                                 No                                                            
+3                                                NaN                                                            
+4                                                 No                                                            
+
+  Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources provided by your employer?  \
+0                                       I don&#39;t know                                                                                               
+1                                                Yes                                                                                               
+2                                       I don&#39;t know                                                                                               
+3                                                NaN                                                                                               
+4                                                 No                                                                                               
+
+  If a mental health issue prompted you to request a medical leave from work, asking for that leave would be:  \
+0                                          Very easy                                                            
+1                                      Somewhat easy                                                            
+2                         Neither easy nor difficult                                                            
+3                                                NaN                                                            
+4                         Neither easy nor difficult                                                            
+
+   ...  \
+0  ...   
+1  ...   
+2  ...   
+3  ...   
+4  ...   
+
+  If you have a mental health issue, do you feel that it interferes with your work when being treated effectively?  \
+0                               Not applicable to me                                                                 
+1                                             Rarely                                                                 
+2                               Not applicable to me                                                                 
+3                                          Sometimes                                                                 
+4                                          Sometimes                                                                 
+
+  If you have a mental health issue, do you feel that it interferes with your work when NOT being treated effectively?  \
+0                               Not applicable to me                                                                     
+1                                          Sometimes                                                                     
+2                               Not applicable to me                                                                     
+3                                          Sometimes                                                                     
+4                                          Sometimes                                                                     
+
+  What is your age? What is your gender? What country do you live in?  \
+0                39                 Male               United Kingdom   
+1                29                 male     United States of America   
+2                38                Male                United Kingdom   
+3                43                 male               United Kingdom   
+4                43               Female     United States of America   
+
+  What US state or territory do you live in?  What country do you work in?  \
+0                                        NaN                United Kingdom   
+1                                   Illinois      United States of America   
+2                                        NaN                United Kingdom   
+3                                        NaN                United Kingdom   
+4                                   Illinois      United States of America   
+
+  What US state or territory do you work in?  \
+0                                        NaN   
+1                                   Illinois   
+2                                        NaN   
+3                                        NaN   
+4                                   Illinois   
+
+  Which of the following best describes your work position?  \
+0                                 Back-end Developer          
+1             Back-end Developer|Front-end Developer          
+2                                 Back-end Developer          
+3                               Supervisor/Team Lead          
+4  Executive Leadership|Supervisor/Team Lead|Dev ...          
+
+  Do you work remotely?  
+0             Sometimes  
+1                 Never  
+2                Always  
+3             Sometimes  
+4             Sometimes  
+
+[5 rows x 63 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Preprocessing</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="k">class</span> <span class="nc">Missing</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counts</span> <span class="o">=</span> <span class="n">counts</span>
+        
+    <span class="k">def</span> <span class="nf">missing_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_type</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Missing </span><span class="si">{</span><span class="n">feature_type</span><span class="si">}</span><span class="s2"> Features:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> missing values&quot;</span><span class="p">)</span>
+
+<span class="c1"># Read the dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mental_health.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Analyze missing values in numeric columns</span>
+<span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s2">&quot;object&quot;</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">features_count</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s2">&quot;object&quot;</span><span class="p">]</span>
+
+<span class="n">missing</span> <span class="o">=</span> <span class="n">Missing</span><span class="p">(</span><span class="n">features_list</span><span class="p">,</span> <span class="n">features_count</span><span class="p">)</span>
+<span class="n">missing</span><span class="o">.</span><span class="n">missing_feature</span><span class="p">(</span><span class="s2">&quot;Numeric&quot;</span><span class="p">)</span>
+
+<span class="c1"># Analyze missing values in non-numeric columns</span>
+<span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;object&quot;</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">features_count</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;object&quot;</span><span class="p">]</span>
+
+<span class="n">missing</span> <span class="o">=</span> <span class="n">Missing</span><span class="p">(</span><span class="n">features_list</span><span class="p">,</span> <span class="n">features_count</span><span class="p">)</span>
+<span class="n">missing</span><span class="o">.</span><span class="n">missing_feature</span><span class="p">(</span><span class="s2">&quot;Non-Numeric&quot;</span><span class="p">)</span>
+
+<span class="c1"># Drop features with more than 60% missing values</span>
+<span class="n">dropped_feat</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mf">0.60</span> <span class="o">*</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">dropped_feat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of features dropped: &quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dropped_feat</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Features dropped:&quot;</span><span class="p">,</span> <span class="n">dropped_feat</span><span class="p">)</span>
+
+<span class="c1"># Clean specific columns using SimpleImputer</span>
+<span class="n">num_col</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Is your employer primarily a tech company/organization?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is your gender?&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">num_col</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c1"># Create a copy of the column&#39;s values</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="c1"># Reshape properly for SimpleImputer</span>
+        <span class="n">reshaped_values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Create and fit the imputer</span>
+        <span class="n">smpl_num_imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span>
+        <span class="c1"># Transform the values</span>
+        <span class="n">imputed_values</span> <span class="o">=</span> <span class="n">smpl_num_imp</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">reshaped_values</span><span class="p">)</span>
+        <span class="c1"># Assign back to dataframe</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">imputed_values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># Impute remaining missing values using Simple Imputer</span>
+<span class="n">smpl_imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">missing_values</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span>
+<span class="n">df_imputed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">smpl_imp</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span>
+<span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_imputed</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+<span class="c1"># Keep only countries with response &gt; 20</span>
+<span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="n">country</span> <span class="k">for</span> <span class="n">country</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;What country do you live in?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;What country do you live in?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">countries</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Final dataset shape:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Value counts for countries:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;What country do you live in?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+
+<span class="c1"># Save the cleaned dataset</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;mental_health_cleaned_general.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Display some basic statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Basic statistics of the cleaned dataset:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Missing Numeric Features:
+Is your employer primarily a tech company/organization?: 287 missing values
+Is your primary role within your company related to tech/IT?: 1170 missing values
+Do you have medical coverage (private insurance or state-provided) which includes treatment of  mental health issues?: 1146 missing values
+
+Missing Non-Numeric Features:
+How many employees does your company or organization have?: 287 missing values
+Does your employer provide mental health benefits as part of healthcare coverage?: 287 missing values
+Do you know the options for mental health care available under your employer-provided coverage?: 420 missing values
+Has your employer ever formally discussed mental health (for example, as part of a wellness campaign or other official communication)?: 287 missing values
+Does your employer offer resources to learn more about mental health concerns and options for seeking help?: 287 missing values
+Is your anonymity protected if you choose to take advantage of mental health or substance abuse treatment resources provided by your employer?: 287 missing values
+If a mental health issue prompted you to request a medical leave from work, asking for that leave would be:: 287 missing values
+Do you think that discussing a mental health disorder with your employer would have negative consequences?: 287 missing values
+Do you think that discussing a physical health issue with your employer would have negative consequences?: 287 missing values
+Would you feel comfortable discussing a mental health disorder with your coworkers?: 287 missing values
+Would you feel comfortable discussing a mental health disorder with your direct supervisor(s)?: 287 missing values
+Do you feel that your employer takes mental health as seriously as physical health?: 287 missing values
+Have you heard of or observed negative consequences for co-workers who have been open about mental health issues in your workplace?: 287 missing values
+Do you know local or online resources to seek help for a mental health disorder?: 1146 missing values
+If you have been diagnosed or treated for a mental health disorder, do you ever reveal this to clients or business contacts?: 1146 missing values
+If you have revealed a mental health issue to a client or business contact, do you believe this has impacted you negatively?: 1289 missing values
+If you have been diagnosed or treated for a mental health disorder, do you ever reveal this to coworkers or employees?: 1146 missing values
+If you have revealed a mental health issue to a coworker or employee, do you believe this has impacted you negatively?: 1146 missing values
+Do you believe your productivity is ever affected by a mental health issue?: 1146 missing values
+If yes, what percentage of your work time (time performing primary or secondary job functions) is affected by a mental health issue?: 1229 missing values
+Have your previous employers provided mental health benefits?: 169 missing values
+Were you aware of the options for mental health care provided by your previous employers?: 169 missing values
+Did your previous employers ever formally discuss mental health (as part of a wellness campaign or other official communication)?: 169 missing values
+Did your previous employers provide resources to learn more about mental health issues and how to seek help?: 169 missing values
+Was your anonymity protected if you chose to take advantage of mental health or substance abuse treatment resources with previous employers?: 169 missing values
+Do you think that discussing a mental health disorder with previous employers would have negative consequences?: 169 missing values
+Do you think that discussing a physical health issue with previous employers would have negative consequences?: 169 missing values
+Would you have been willing to discuss a mental health issue with your previous co-workers?: 169 missing values
+Would you have been willing to discuss a mental health issue with your direct supervisor(s)?: 169 missing values
+Did you feel that your previous employers took mental health as seriously as physical health?: 169 missing values
+Did you hear of or observe negative consequences for co-workers with mental health issues in your previous workplaces?: 169 missing values
+Why or why not?: 338 missing values
+Why or why not?.1: 307 missing values
+Have you observed or experienced an unsupportive or badly handled response to a mental health issue in your current or previous workplace?: 89 missing values
+Have your observations of how another individual who discussed a mental health disorder made you less likely to reveal a mental health issue yourself in your current workplace?: 776 missing values
+If yes, what condition(s) have you been diagnosed with?: 865 missing values
+If maybe, what condition(s) do you believe you have?: 1111 missing values
+If so, what condition(s) were you diagnosed with?: 722 missing values
+What is your gender?: 3 missing values
+What US state or territory do you live in?: 593 missing values
+What US state or territory do you work in?: 582 missing values
+
+Number of features dropped:  11
+Features dropped: [&#39;Is your primary role within your company related to tech/IT?&#39;, &#39;Do you have medical coverage (private insurance or state-provided) which includes treatment of \xa0mental health issues?&#39;, &#39;Do you know local or online resources to seek help for a mental health disorder?&#39;, &#39;If you have been diagnosed or treated for a mental health disorder, do you ever reveal this to clients or business contacts?&#39;, &#39;If you have revealed a mental health issue to a client or business contact, do you believe this has impacted you negatively?&#39;, &#39;If you have been diagnosed or treated for a mental health disorder, do you ever reveal this to coworkers or employees?&#39;, &#39;If you have revealed a mental health issue to a coworker or employee, do you believe this has impacted you negatively?&#39;, &#39;Do you believe your productivity is ever affected by a mental health issue?&#39;, &#39;If yes, what percentage of your work time (time performing primary or secondary job functions) is affected by a mental health issue?&#39;, &#39;If yes, what condition(s) have you been diagnosed with?&#39;, &#39;If maybe, what condition(s) do you believe you have?&#39;]
+
+Final dataset shape: (1239, 52)
+
+Value counts for countries:
+What country do you live in?
+United States of America    840
+United Kingdom              180
+Canada                       78
+Germany                      58
+Netherlands                  48
+Australia                    35
+Name: count, dtype: int64
+
+Basic statistics of the cleaned dataset:
+                                                     count unique  \
+Are you self-employed?                              1239.0    NaN   
+How many employees does your company or organiz...    1239      6   
+Is your employer primarily a tech company/organ...  1239.0    NaN   
+Does your employer provide mental health benefi...    1239      4   
+Do you know the options for mental health care ...    1239      3   
+Has your employer ever formally discussed menta...    1239      3   
+Does your employer offer resources to learn mor...    1239      3   
+Is your anonymity protected if you choose to ta...    1239      3   
+If a mental health issue prompted you to reques...    1239      6   
+Do you think that discussing a mental health di...    1239      3   
+Do you think that discussing a physical health ...    1239      3   
+Would you feel comfortable discussing a mental ...    1239      3   
+Would you feel comfortable discussing a mental ...    1239      3   
+Do you feel that your employer takes mental hea...    1239      3   
+Have you heard of or observed negative conseque...    1239      2   
+Do you have previous employers?                     1239.0    NaN   
+Have your previous employers provided mental he...    1239      4   
+Were you aware of the options for mental health...    1239      4   
+Did your previous employers ever formally discu...    1239      4   
+Did your previous employers provide resources t...    1239      3   
+Was your anonymity protected if you chose to ta...    1239      4   
+Do you think that discussing a mental health di...    1239      4   
+Do you think that discussing a physical health ...    1239      3   
+Would you have been willing to discuss a mental...    1239      3   
+Would you have been willing to discuss a mental...    1239      4   
+Did you feel that your previous employers took ...    1239      4   
+Did you hear of or observe negative consequence...    1239      3   
+Would you be willing to bring up a physical hea...    1239      3   
+Why or why not?                                       1239    946   
+Would you bring up a mental health issue with a...    1239      3   
+Why or why not?.1                                     1239    949   
+Do you feel that being identified as a person w...    1239      5   
+Do you think that team members/co-workers would...    1239      5   
+How willing would you be to share with friends ...    1239      6   
+Have you observed or experienced an unsupportiv...    1239      4   
+Have your observations of how another individua...    1239      3   
+Do you have a family history of mental illness?       1239      3   
+Have you had a mental health disorder in the past?    1239      3   
+Do you currently have a mental health disorder?       1239      3   
+Have you been diagnosed with a mental health co...    1239      2   
+If so, what condition(s) were you diagnosed with?     1239    105   
+Have you ever sought treatment for a mental hea...  1239.0    NaN   
+If you have a mental health issue, do you feel ...    1239      5   
+If you have a mental health issue, do you feel ...    1239      5   
+What is your age?                                   1239.0    NaN   
+What is your gender?                                  1239     67   
+What country do you live in?                          1239      6   
+What US state or territory do you live in?            1239     47   
+What country do you work in?                          1239     10   
+What US state or territory do you work in?            1239     48   
+Which of the following best describes your work...    1239    237   
+Do you work remotely?                                 1239      3   
+
+                                                                                                  top  \
+Are you self-employed?                                                                            NaN   
+How many employees does your company or organiz...                                             26-100   
+Is your employer primarily a tech company/organ...                                                NaN   
+Does your employer provide mental health benefi...                                                Yes   
+Do you know the options for mental health care ...                                                 No   
+Has your employer ever formally discussed menta...                                                 No   
+Does your employer offer resources to learn mor...                                                 No   
+Is your anonymity protected if you choose to ta...                                       I don&#39;t know   
+If a mental health issue prompted you to reques...                                      Somewhat easy   
+Do you think that discussing a mental health di...                                              Maybe   
+Do you think that discussing a physical health ...                                                 No   
+Would you feel comfortable discussing a mental ...                                              Maybe   
+Would you feel comfortable discussing a mental ...                                                Yes   
+Do you feel that your employer takes mental hea...                                       I don&#39;t know   
+Have you heard of or observed negative conseque...                                                 No   
+Do you have previous employers?                                                                   NaN   
+Have your previous employers provided mental he...                                           Some did   
+Were you aware of the options for mental health...                          N/A (not currently aware)   
+Did your previous employers ever formally discu...                                           None did   
+Did your previous employers provide resources t...                                           None did   
+Was your anonymity protected if you chose to ta...                                       I don&#39;t know   
+Do you think that discussing a mental health di...                                       Some of them   
+Do you think that discussing a physical health ...                                       Some of them   
+Would you have been willing to discuss a mental...                      Some of my previous employers   
+Would you have been willing to discuss a mental...                      Some of my previous employers   
+Did you feel that your previous employers took ...                                           None did   
+Did you hear of or observe negative consequence...                                       None of them   
+Would you be willing to bring up a physical hea...                                              Maybe   
+Why or why not?                                                                Fear of discrimination   
+Would you bring up a mental health issue with a...                                                 No   
+Why or why not?.1                                                                              Stigma   
+Do you feel that being identified as a person w...                                              Maybe   
+Do you think that team members/co-workers would...                                              Maybe   
+How willing would you be to share with friends ...                                      Somewhat open   
+Have you observed or experienced an unsupportiv...                                                 No   
+Have your observations of how another individua...                                                Yes   
+Do you have a family history of mental illness?                                                   Yes   
+Have you had a mental health disorder in the past?                                                Yes   
+Do you currently have a mental health disorder?                                                   Yes   
+Have you been diagnosed with a mental health co...                                                Yes   
+If so, what condition(s) were you diagnosed with?   Mood Disorder (Depression, Bipolar Disorder, etc)   
+Have you ever sought treatment for a mental hea...                                                NaN   
+If you have a mental health issue, do you feel ...                               Not applicable to me   
+If you have a mental health issue, do you feel ...                                              Often   
+What is your age?                                                                                 NaN   
+What is your gender?                                                                             Male   
+What country do you live in?                                                 United States of America   
+What US state or territory do you live in?                                                 California   
+What country do you work in?                                                 United States of America   
+What US state or territory do you work in?                                                 California   
+Which of the following best describes your work...                                 Back-end Developer   
+Do you work remotely?                                                                       Sometimes   
+
+                                                    freq       mean  \
+Are you self-employed?                               NaN   0.187248   
+How many employees does your company or organiz...   495        NaN   
+Is your employer primarily a tech company/organ...   NaN   0.808717   
+Does your employer provide mental health benefi...   745        NaN   
+Do you know the options for mental health care ...   631        NaN   
+Has your employer ever formally discussed menta...   941        NaN   
+Does your employer offer resources to learn mor...   671        NaN   
+Is your anonymity protected if you choose to ta...   884        NaN   
+If a mental health issue prompted you to reques...   474        NaN   
+Do you think that discussing a mental health di...   660        NaN   
+Do you think that discussing a physical health ...   961        NaN   
+Would you feel comfortable discussing a mental ...   664        NaN   
+Would you feel comfortable discussing a mental ...   610        NaN   
+Do you feel that your employer takes mental hea...   668        NaN   
+Have you heard of or observed negative conseque...  1153        NaN   
+Do you have previous employers?                      NaN   0.887006   
+Have your previous employers provided mental he...   507        NaN   
+Were you aware of the options for mental health...   612        NaN   
+Did your previous employers ever formally discu...   895        NaN   
+Did your previous employers provide resources t...   845        NaN   
+Was your anonymity protected if you chose to ta...   894        NaN   
+Do you think that discussing a mental health di...   689        NaN   
+Do you think that discussing a physical health ...   692        NaN   
+Would you have been willing to discuss a mental...   783        NaN   
+Would you have been willing to discuss a mental...   717        NaN   
+Did you feel that your previous employers took ...   534        NaN   
+Did you hear of or observe negative consequence...   785        NaN   
+Would you be willing to bring up a physical hea...   555        NaN   
+Why or why not?                                      288        NaN   
+Would you bring up a mental health issue with a...   790        NaN   
+Why or why not?.1                                    264        NaN   
+Do you feel that being identified as a person w...   508        NaN   
+Do you think that team members/co-workers would...   515        NaN   
+How willing would you be to share with friends ...   561        NaN   
+Have you observed or experienced an unsupportiv...   557        NaN   
+Have your observations of how another individua...   883        NaN   
+Do you have a family history of mental illness?      603        NaN   
+Have you had a mental health disorder in the past?   665        NaN   
+Do you currently have a mental health disorder?      528        NaN   
+Have you been diagnosed with a mental health co...   650        NaN   
+If so, what condition(s) were you diagnosed with?    764        NaN   
+Have you ever sought treatment for a mental hea...   NaN   0.610977   
+If you have a mental health issue, do you feel ...   466        NaN   
+If you have a mental health issue, do you feel ...   483        NaN   
+What is your age?                                    NaN  34.576271   
+What is your gender?                                 526        NaN   
+What country do you live in?                         840        NaN   
+What US state or territory do you live in?           529        NaN   
+What country do you work in?                         844        NaN   
+What US state or territory do you work in?           535        NaN   
+Which of the following best describes your work...   220        NaN   
+Do you work remotely?                                657        NaN   
+
+                                                          std  min   25%  \
+Are you self-employed?                               0.390268  0.0   0.0   
+How many employees does your company or organiz...        NaN  NaN   NaN   
+Is your employer primarily a tech company/organ...    0.39347  0.0   1.0   
+Does your employer provide mental health benefi...        NaN  NaN   NaN   
+Do you know the options for mental health care ...        NaN  NaN   NaN   
+Has your employer ever formally discussed menta...        NaN  NaN   NaN   
+Does your employer offer resources to learn mor...        NaN  NaN   NaN   
+Is your anonymity protected if you choose to ta...        NaN  NaN   NaN   
+If a mental health issue prompted you to reques...        NaN  NaN   NaN   
+Do you think that discussing a mental health di...        NaN  NaN   NaN   
+Do you think that discussing a physical health ...        NaN  NaN   NaN   
+Would you feel comfortable discussing a mental ...        NaN  NaN   NaN   
+Would you feel comfortable discussing a mental ...        NaN  NaN   NaN   
+Do you feel that your employer takes mental hea...        NaN  NaN   NaN   
+Have you heard of or observed negative conseque...        NaN  NaN   NaN   
+Do you have previous employers?                      0.316714  0.0   1.0   
+Have your previous employers provided mental he...        NaN  NaN   NaN   
+Were you aware of the options for mental health...        NaN  NaN   NaN   
+Did your previous employers ever formally discu...        NaN  NaN   NaN   
+Did your previous employers provide resources t...        NaN  NaN   NaN   
+Was your anonymity protected if you chose to ta...        NaN  NaN   NaN   
+Do you think that discussing a mental health di...        NaN  NaN   NaN   
+Do you think that discussing a physical health ...        NaN  NaN   NaN   
+Would you have been willing to discuss a mental...        NaN  NaN   NaN   
+Would you have been willing to discuss a mental...        NaN  NaN   NaN   
+Did you feel that your previous employers took ...        NaN  NaN   NaN   
+Did you hear of or observe negative consequence...        NaN  NaN   NaN   
+Would you be willing to bring up a physical hea...        NaN  NaN   NaN   
+Why or why not?                                           NaN  NaN   NaN   
+Would you bring up a mental health issue with a...        NaN  NaN   NaN   
+Why or why not?.1                                         NaN  NaN   NaN   
+Do you feel that being identified as a person w...        NaN  NaN   NaN   
+Do you think that team members/co-workers would...        NaN  NaN   NaN   
+How willing would you be to share with friends ...        NaN  NaN   NaN   
+Have you observed or experienced an unsupportiv...        NaN  NaN   NaN   
+Have your observations of how another individua...        NaN  NaN   NaN   
+Do you have a family history of mental illness?           NaN  NaN   NaN   
+Have you had a mental health disorder in the past?        NaN  NaN   NaN   
+Do you currently have a mental health disorder?           NaN  NaN   NaN   
+Have you been diagnosed with a mental health co...        NaN  NaN   NaN   
+If so, what condition(s) were you diagnosed with?         NaN  NaN   NaN   
+Have you ever sought treatment for a mental hea...   0.487726  0.0   0.0   
+If you have a mental health issue, do you feel ...        NaN  NaN   NaN   
+If you have a mental health issue, do you feel ...        NaN  NaN   NaN   
+What is your age?                                   11.833885  3.0  28.0   
+What is your gender?                                      NaN  NaN   NaN   
+What country do you live in?                              NaN  NaN   NaN   
+What US state or territory do you live in?                NaN  NaN   NaN   
+What country do you work in?                              NaN  NaN   NaN   
+What US state or territory do you work in?                NaN  NaN   NaN   
+Which of the following best describes your work...        NaN  NaN   NaN   
+Do you work remotely?                                     NaN  NaN   NaN   
+
+                                                     50%   75%    max  
+Are you self-employed?                               0.0   0.0    1.0  
+How many employees does your company or organiz...   NaN   NaN    NaN  
+Is your employer primarily a tech company/organ...   1.0   1.0    1.0  
+Does your employer provide mental health benefi...   NaN   NaN    NaN  
+Do you know the options for mental health care ...   NaN   NaN    NaN  
+Has your employer ever formally discussed menta...   NaN   NaN    NaN  
+Does your employer offer resources to learn mor...   NaN   NaN    NaN  
+Is your anonymity protected if you choose to ta...   NaN   NaN    NaN  
+If a mental health issue prompted you to reques...   NaN   NaN    NaN  
+Do you think that discussing a mental health di...   NaN   NaN    NaN  
+Do you think that discussing a physical health ...   NaN   NaN    NaN  
+Would you feel comfortable discussing a mental ...   NaN   NaN    NaN  
+Would you feel comfortable discussing a mental ...   NaN   NaN    NaN  
+Do you feel that your employer takes mental hea...   NaN   NaN    NaN  
+Have you heard of or observed negative conseque...   NaN   NaN    NaN  
+Do you have previous employers?                      1.0   1.0    1.0  
+Have your previous employers provided mental he...   NaN   NaN    NaN  
+Were you aware of the options for mental health...   NaN   NaN    NaN  
+Did your previous employers ever formally discu...   NaN   NaN    NaN  
+Did your previous employers provide resources t...   NaN   NaN    NaN  
+Was your anonymity protected if you chose to ta...   NaN   NaN    NaN  
+Do you think that discussing a mental health di...   NaN   NaN    NaN  
+Do you think that discussing a physical health ...   NaN   NaN    NaN  
+Would you have been willing to discuss a mental...   NaN   NaN    NaN  
+Would you have been willing to discuss a mental...   NaN   NaN    NaN  
+Did you feel that your previous employers took ...   NaN   NaN    NaN  
+Did you hear of or observe negative consequence...   NaN   NaN    NaN  
+Would you be willing to bring up a physical hea...   NaN   NaN    NaN  
+Why or why not?                                      NaN   NaN    NaN  
+Would you bring up a mental health issue with a...   NaN   NaN    NaN  
+Why or why not?.1                                    NaN   NaN    NaN  
+Do you feel that being identified as a person w...   NaN   NaN    NaN  
+Do you think that team members/co-workers would...   NaN   NaN    NaN  
+How willing would you be to share with friends ...   NaN   NaN    NaN  
+Have you observed or experienced an unsupportiv...   NaN   NaN    NaN  
+Have your observations of how another individua...   NaN   NaN    NaN  
+Do you have a family history of mental illness?      NaN   NaN    NaN  
+Have you had a mental health disorder in the past?   NaN   NaN    NaN  
+Do you currently have a mental health disorder?      NaN   NaN    NaN  
+Have you been diagnosed with a mental health co...   NaN   NaN    NaN  
+If so, what condition(s) were you diagnosed with?    NaN   NaN    NaN  
+Have you ever sought treatment for a mental hea...   1.0   1.0    1.0  
+If you have a mental health issue, do you feel ...   NaN   NaN    NaN  
+If you have a mental health issue, do you feel ...   NaN   NaN    NaN  
+What is your age?                                   33.0  39.0  323.0  
+What is your gender?                                 NaN   NaN    NaN  
+What country do you live in?                         NaN   NaN    NaN  
+What US state or territory do you live in?           NaN   NaN    NaN  
+What country do you work in?                         NaN   NaN    NaN  
+What US state or territory do you work in?           NaN   NaN    NaN  
+Which of the following best describes your work...   NaN   NaN    NaN  
+Do you work remotely?                                NaN   NaN    NaN  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="c1"># Read the cleaned data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mental_health_cleaned_general.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create figure for first set of visualizations</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+
+<span class="c1"># 1. Country Distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">country_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;What country do you live in?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">country_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">country_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Respondents by Country&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="c1"># 2. Age Distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;What is your age?&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;What is your age?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="c1"># Remove outlier age of 323</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;What is your age?&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;What is your age?&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Age Distribution of Respondents&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+
+<span class="c1"># 3. Remote Work Distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">remote_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Do you work remotely?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">remote_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">remote_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;lightpink&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Remote Work Arrangements&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># 4. Tech Company vs Non-Tech Company</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">tech_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Is your employer primarily a tech company/organization?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s1">&#39;Tech Company&#39;</span><span class="p">,</span> <span class="s1">&#39;Non-Tech Company&#39;</span><span class="p">],</span> <span class="n">tech_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgreen&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Tech vs Non-Tech Companies&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="c1"># 5. Company Size Distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">size_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;How many employees does your company or organization have?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">size_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">size_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Company Size Distribution&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="c1"># 6. Mental Health Benefits Provision</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">benefits_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Does your employer provide mental health benefits as part of healthcare coverage?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">benefits_counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">benefits_counts</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mental Health Benefits Provision&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Create figure for second set of visualizations</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+
+<span class="c1"># 7. Comfort Level with Supervisors</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">comfort_sup</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Would you feel comfortable discussing a mental health disorder with your direct supervisor(s)?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">comfort_sup</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">comfort_sup</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comfort Level Discussing Mental Health</span><span class="se">\n</span><span class="s1">with Supervisors&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="c1"># 8. Previous Mental Health History</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">history</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Have you had a mental health disorder in the past?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">history</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;lightpink&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;History of Mental Health Disorders&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># 9. Family History of Mental Illness</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">family_history</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Do you have a family history of mental illness?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">family_history</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">family_history</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Family History of Mental Illness&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of Respondents&#39;</span><span class="p">)</span>
+
+<span class="c1"># 10. Treatment Seeking Behavior</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">treatment</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Have you ever sought treatment for a mental health issue from a mental health professional?&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Yes&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">treatment</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">treatment</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.1f%%</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;lightgreen&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mental Health Treatment</span><span class="se">\n</span><span class="s1">Seeking Behavior&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Save the figures</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;mental_health_survey_analysis.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ec7c1d68d2c82bcb7c54307e29a16f33530b2a36230d386cf7c49d3b87d13c4a.png" src="../../_images/ec7c1d68d2c82bcb7c54307e29a16f33530b2a36230d386cf7c49d3b87d13c4a.png" />
+<img alt="../../_images/3fce4d11c83ce32641e45607d4927039f8731885d93665e9e2541f24a070240a.png" src="../../_images/3fce4d11c83ce32641e45607d4927039f8731885d93665e9e2541f24a070240a.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 640x480 with 0 Axes&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Create a new database</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;mental_health_final.db&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database &#39;mental_health_final.db&#39; created successfully!&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Close the connection</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error creating database: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Database &#39;mental_health_final.db&#39; created successfully!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Normalize DB into 3NF</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Read the cleaned data</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mental_health_cleaned_general.csv&#39;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Create a new database connection</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;mental_health_final.db&#39;</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    
+    <span class="c1"># Create Employees table (Main entity)</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS employees (</span>
+<span class="s1">        employee_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">        age INTEGER,</span>
+<span class="s1">        gender TEXT,</span>
+<span class="s1">        country TEXT,</span>
+<span class="s1">        state TEXT,</span>
+<span class="s1">        is_self_employed INTEGER</span>
+<span class="s1">    )</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Create Employment table</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS employment (</span>
+<span class="s1">        employment_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">        employee_id INTEGER,</span>
+<span class="s1">        company_size TEXT,</span>
+<span class="s1">        is_tech_company INTEGER,</span>
+<span class="s1">        work_remotely TEXT,</span>
+<span class="s1">        FOREIGN KEY (employee_id) REFERENCES employees(employee_id)</span>
+<span class="s1">    )</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Create Mental Health Benefits table</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS mental_health_benefits (</span>
+<span class="s1">        benefit_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">        employee_id INTEGER,</span>
+<span class="s1">        has_mental_health_benefits TEXT,</span>
+<span class="s1">        knows_benefits_options TEXT,</span>
+<span class="s1">        mental_health_resources TEXT,</span>
+<span class="s1">        leave_request_ease TEXT,</span>
+<span class="s1">        FOREIGN KEY (employee_id) REFERENCES employees(employee_id)</span>
+<span class="s1">    )</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create Mental Health History table</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS mental_health_history (</span>
+<span class="s1">        history_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">        employee_id INTEGER,</span>
+<span class="s1">        family_history TEXT,</span>
+<span class="s1">        past_disorder TEXT,</span>
+<span class="s1">        current_disorder TEXT,</span>
+<span class="s1">        sought_treatment INTEGER,</span>
+<span class="s1">        FOREIGN KEY (employee_id) REFERENCES employees(employee_id)</span>
+<span class="s1">    )</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Create Workplace Communication table</span>
+    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    CREATE TABLE IF NOT EXISTS workplace_communication (</span>
+<span class="s1">        communication_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">        employee_id INTEGER,</span>
+<span class="s1">        discuss_with_supervisor TEXT,</span>
+<span class="s1">        discuss_with_coworkers TEXT,</span>
+<span class="s1">        observed_negative_consequences TEXT,</span>
+<span class="s1">        interferes_with_work TEXT,</span>
+<span class="s1">        FOREIGN KEY (employee_id) REFERENCES employees(employee_id)</span>
+<span class="s1">    )</span>
+<span class="s1">    &#39;&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Insert data into Employees table</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO employees (age, gender, country, state, is_self_employed)</span>
+<span class="s1">        VALUES (?, ?, ?, ?, ?)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;What is your age?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;What is your gender?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;What country do you live in?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;What US state or territory do you live in?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Are you self-employed?&#39;</span><span class="p">]</span>
+        <span class="p">))</span>
+        
+        <span class="n">employee_id</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">lastrowid</span>
+        
+        <span class="c1"># Insert into Employment table</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO employment (employee_id, company_size, is_tech_company, work_remotely)</span>
+<span class="s1">        VALUES (?, ?, ?, ?)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">employee_id</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;How many employees does your company or organization have?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Is your employer primarily a tech company/organization?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Do you work remotely?&#39;</span><span class="p">]</span>
+        <span class="p">))</span>
+        
+        <span class="c1"># Insert into Mental Health Benefits table</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO mental_health_benefits (employee_id, has_mental_health_benefits, </span>
+<span class="s1">            knows_benefits_options, mental_health_resources, leave_request_ease)</span>
+<span class="s1">        VALUES (?, ?, ?, ?, ?)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">employee_id</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Does your employer provide mental health benefits as part of healthcare coverage?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Do you know the options for mental health care available under your employer-provided coverage?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Does your employer offer resources to learn more about mental health concerns and options for seeking help?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;If a mental health issue prompted you to request a medical leave from work, asking for that leave would be:&#39;</span><span class="p">]</span>
+        <span class="p">))</span>
+        
+        <span class="c1"># Insert into Mental Health History table</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO mental_health_history (employee_id, family_history, past_disorder,</span>
+<span class="s1">            current_disorder, sought_treatment)</span>
+<span class="s1">        VALUES (?, ?, ?, ?, ?)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">employee_id</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Do you have a family history of mental illness?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Have you had a mental health disorder in the past?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Do you currently have a mental health disorder?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Have you ever sought treatment for a mental health issue from a mental health professional?&#39;</span><span class="p">]</span>
+        <span class="p">))</span>
+        
+        <span class="c1"># Insert into Workplace Communication table</span>
+        <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        INSERT INTO workplace_communication (employee_id, discuss_with_supervisor,</span>
+<span class="s1">            discuss_with_coworkers, observed_negative_consequences, interferes_with_work)</span>
+<span class="s1">        VALUES (?, ?, ?, ?, ?)</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">employee_id</span><span class="p">,</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Would you feel comfortable discussing a mental health disorder with your direct supervisor(s)?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Would you feel comfortable discussing a mental health disorder with your coworkers?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Have you heard of or observed negative consequences for co-workers who have been open about mental health issues in your workplace?&#39;</span><span class="p">],</span>
+            <span class="n">row</span><span class="p">[</span><span class="s1">&#39;If you have a mental health issue, do you feel that it interferes with your work when being treated effectively?&#39;</span><span class="p">]</span>
+        <span class="p">))</span>
+    
+    <span class="c1"># Commit the changes</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database normalized and data inserted successfully!&quot;</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+
+<span class="k">finally</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database connection closed.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Database normalized and data inserted successfully!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Database connection closed.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Using SQL join statements</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Connect to the database</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;mental_health_final.db&#39;</span><span class="p">)</span>
+
+<span class="c1"># 1. Employee Demographics and Employment Details</span>
+<span class="n">demographics_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT </span>
+<span class="s2">    e.employee_id,</span>
+<span class="s2">    e.age,</span>
+<span class="s2">    e.gender,</span>
+<span class="s2">    e.country,</span>
+<span class="s2">    e.state,</span>
+<span class="s2">    e.is_self_employed,</span>
+<span class="s2">    emp.company_size,</span>
+<span class="s2">    emp.is_tech_company,</span>
+<span class="s2">    emp.work_remotely</span>
+<span class="s2">FROM employees e</span>
+<span class="s2">LEFT JOIN employment emp ON e.employee_id = emp.employee_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">df_demographics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">demographics_query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Demographics and Employment Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_demographics</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_demographics</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 2. Mental Health Benefits and Resources</span>
+<span class="n">benefits_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT </span>
+<span class="s2">    e.employee_id,</span>
+<span class="s2">    e.country,</span>
+<span class="s2">    mhb.has_mental_health_benefits,</span>
+<span class="s2">    mhb.knows_benefits_options,</span>
+<span class="s2">    mhb.mental_health_resources,</span>
+<span class="s2">    mhb.leave_request_ease</span>
+<span class="s2">FROM employees e</span>
+<span class="s2">LEFT JOIN mental_health_benefits mhb ON e.employee_id = mhb.employee_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">df_benefits</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">benefits_query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mental Health Benefits Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_benefits</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_benefits</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 3. Mental Health History and Work Impact</span>
+<span class="n">health_history_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT </span>
+<span class="s2">    e.employee_id,</span>
+<span class="s2">    e.age,</span>
+<span class="s2">    e.gender,</span>
+<span class="s2">    mhh.family_history,</span>
+<span class="s2">    mhh.past_disorder,</span>
+<span class="s2">    mhh.current_disorder,</span>
+<span class="s2">    mhh.sought_treatment,</span>
+<span class="s2">    wc.interferes_with_work</span>
+<span class="s2">FROM employees e</span>
+<span class="s2">LEFT JOIN mental_health_history mhh ON e.employee_id = mhh.employee_id</span>
+<span class="s2">LEFT JOIN workplace_communication wc ON e.employee_id = wc.employee_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">df_health_history</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">health_history_query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mental Health History and Impact Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_health_history</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_health_history</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 4. Workplace Communication and Environment</span>
+<span class="n">workplace_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT </span>
+<span class="s2">    e.employee_id,</span>
+<span class="s2">    e.is_self_employed,</span>
+<span class="s2">    emp.is_tech_company,</span>
+<span class="s2">    wc.discuss_with_supervisor,</span>
+<span class="s2">    wc.discuss_with_coworkers,</span>
+<span class="s2">    wc.observed_negative_consequences,</span>
+<span class="s2">    mhb.leave_request_ease</span>
+<span class="s2">FROM employees e</span>
+<span class="s2">LEFT JOIN employment emp ON e.employee_id = emp.employee_id</span>
+<span class="s2">LEFT JOIN workplace_communication wc ON e.employee_id = wc.employee_id</span>
+<span class="s2">LEFT JOIN mental_health_benefits mhb ON e.employee_id = mhb.employee_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">df_workplace</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">workplace_query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Workplace Communication Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_workplace</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_workplace</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 5. Comprehensive Analysis (All Tables)</span>
+<span class="n">comprehensive_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">SELECT </span>
+<span class="s2">    e.employee_id,</span>
+<span class="s2">    e.age,</span>
+<span class="s2">    e.gender,</span>
+<span class="s2">    e.country,</span>
+<span class="s2">    emp.company_size,</span>
+<span class="s2">    emp.is_tech_company,</span>
+<span class="s2">    emp.work_remotely,</span>
+<span class="s2">    mhb.has_mental_health_benefits,</span>
+<span class="s2">    mhb.mental_health_resources,</span>
+<span class="s2">    mhh.family_history,</span>
+<span class="s2">    mhh.current_disorder,</span>
+<span class="s2">    mhh.sought_treatment,</span>
+<span class="s2">    wc.discuss_with_supervisor,</span>
+<span class="s2">    wc.observed_negative_consequences</span>
+<span class="s2">FROM employees e</span>
+<span class="s2">LEFT JOIN employment emp ON e.employee_id = emp.employee_id</span>
+<span class="s2">LEFT JOIN mental_health_benefits mhb ON e.employee_id = mhb.employee_id</span>
+<span class="s2">LEFT JOIN mental_health_history mhh ON e.employee_id = mhh.employee_id</span>
+<span class="s2">LEFT JOIN workplace_communication wc ON e.employee_id = wc.employee_id</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">df_comprehensive</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql_query</span><span class="p">(</span><span class="n">comprehensive_query</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Comprehensive Analysis Data:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_comprehensive</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_comprehensive</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Close the connection</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Demographics and Employment Data:
+   employee_id  age  gender                   country       state  \
+0            1   39    Male            United Kingdom  California   
+1            2   29    male  United States of America    Illinois   
+2            3   38   Male             United Kingdom  California   
+3            4   43    male            United Kingdom  California   
+4            5   43  Female  United States of America    Illinois   
+
+   is_self_employed company_size  is_tech_company work_remotely  
+0                 0       26-100                1     Sometimes  
+1                 0         6-25                1         Never  
+2                 0         6-25                1        Always  
+3                 1       26-100                1     Sometimes  
+4                 0         6-25                0     Sometimes  
+Total records: 1239
+
+Mental Health Benefits Data:
+   employee_id                   country       has_mental_health_benefits  \
+0            1            United Kingdom  Not eligible for coverage / N/A   
+1            2  United States of America                               No   
+2            3            United Kingdom                               No   
+3            4            United Kingdom                              Yes   
+4            5  United States of America                              Yes   
+
+  knows_benefits_options mental_health_resources          leave_request_ease  
+0                     No                      No                   Very easy  
+1                    Yes                     Yes               Somewhat easy  
+2                     No                      No  Neither easy nor difficult  
+3                     No                      No               Somewhat easy  
+4                    Yes                      No  Neither easy nor difficult  
+Total records: 1239
+
+Mental Health History and Impact Data:
+   employee_id  age  gender family_history past_disorder current_disorder  \
+0            1   39    Male             No           Yes               No   
+1            2   29    male            Yes           Yes              Yes   
+2            3   38   Male              No         Maybe               No   
+3            4   43    male             No           Yes              Yes   
+4            5   43  Female            Yes           Yes              Yes   
+
+   sought_treatment  interferes_with_work  
+0                 0  Not applicable to me  
+1                 1                Rarely  
+2                 1  Not applicable to me  
+3                 1             Sometimes  
+4                 1             Sometimes  
+Total records: 1239
+
+Workplace Communication Data:
+   employee_id  is_self_employed  is_tech_company discuss_with_supervisor  \
+0            1                 0                1                     Yes   
+1            2                 0                1                     Yes   
+2            3                 0                1                   Maybe   
+3            4                 1                1                     Yes   
+4            5                 0                0                      No   
+
+  discuss_with_coworkers observed_negative_consequences  \
+0                  Maybe                             No   
+1                  Maybe                             No   
+2                  Maybe                             No   
+3                  Maybe                             No   
+4                  Maybe                             No   
+
+           leave_request_ease  
+0                   Very easy  
+1               Somewhat easy  
+2  Neither easy nor difficult  
+3               Somewhat easy  
+4  Neither easy nor difficult  
+Total records: 1239
+
+Comprehensive Analysis Data:
+   employee_id  age  gender                   country company_size  \
+0            1   39    Male            United Kingdom       26-100   
+1            2   29    male  United States of America         6-25   
+2            3   38   Male             United Kingdom         6-25   
+3            4   43    male            United Kingdom       26-100   
+4            5   43  Female  United States of America         6-25   
+
+   is_tech_company work_remotely       has_mental_health_benefits  \
+0                1     Sometimes  Not eligible for coverage / N/A   
+1                1         Never                               No   
+2                1        Always                               No   
+3                1     Sometimes                              Yes   
+4                0     Sometimes                              Yes   
+
+  mental_health_resources family_history current_disorder  sought_treatment  \
+0                      No             No               No                 0   
+1                     Yes            Yes              Yes                 1   
+2                      No             No               No                 1   
+3                      No             No              Yes                 1   
+4                      No            Yes              Yes                 1   
+
+  discuss_with_supervisor observed_negative_consequences  
+0                     Yes                             No  
+1                     Yes                             No  
+2                   Maybe                             No  
+3                     Yes                             No  
+4                      No                             No  
+Total records: 1239
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content\development"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Mental Health Treatment Prediction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_model_development.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Model Development</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Ashish ashreepr 50607545
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
